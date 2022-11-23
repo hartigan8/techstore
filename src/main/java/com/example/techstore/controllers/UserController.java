@@ -43,9 +43,6 @@ public class UserController {
         userService.deleteOneUser(id);
     }
     
-    @GetMapping(value="/address")
-    public void getAddress() {
-        return userService.saveOneUser(null);
-    }
+    
     
 }

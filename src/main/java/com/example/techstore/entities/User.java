@@ -24,19 +24,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String name;
     
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String surname;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private String phoneNumber;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 64)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 15)
     private String password;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user")
