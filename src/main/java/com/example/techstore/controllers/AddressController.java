@@ -20,7 +20,6 @@ public class AddressController {
 
     @PostMapping
     public Address saveOneAddress(@RequestBody Address address) {
-        
         return addressService.saveOneAddress(address);
     }
     
