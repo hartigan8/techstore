@@ -1,6 +1,7 @@
 package com.example.techstore.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,21 @@ public class UserService {
     public void deleteOneUser(Long id) {
         userRepo.deleteById(id);
     }
-
+    public User updateOneUser(Long id, User newUser){
+        Optional<User> user = userRepo.findById(id);
+        if(user.isPresent()){
+            User foundUser = user.get();
+            foundUser.setName(newUser.getName());
+            foundUser.setAddress(newUser.getAddress());
+            foundUser.setEmail(newUser.getEmail());
+            foundUser.setPassword(newUser.getPassword());
+            foundUser.setPhoneNumber(newUser.getPhoneNumber());
+            userRepo.save(foundUser);
+            return foundUser;
+        }
+        else{
+            return null;
+        }
+    }
 
 }
