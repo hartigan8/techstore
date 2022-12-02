@@ -16,11 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping
+@RequestMapping("products")
 public class ProductController {
 
     @Autowired
     private ProductService productService;
+
 
     @PostMapping
     public Product saveOneProduct(@RequestBody Product product) {

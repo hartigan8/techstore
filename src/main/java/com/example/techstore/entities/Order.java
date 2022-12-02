@@ -38,5 +38,5 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
-    private Employee employee;
+    private User employee;
 }

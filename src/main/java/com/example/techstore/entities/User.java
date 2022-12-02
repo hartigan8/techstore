@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import lombok.Data;
 
@@ -40,11 +42,17 @@ public class User {
     @Column(nullable = false, length = 15)
     private String password;
 
+    @Column(nullable = false, length = 10)
+    private String role;
+
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user", fetch = FetchType.EAGER)
     private List<Address> address;
   
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<Order> orders;
+    private List<Order> customerOrders;
     
-}
+    @OneToMany(mappedBy = "employee")
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    private List<Order> employOrders;
 
+}
