@@ -29,7 +29,7 @@ public class User {
     
     @Column(nullable = false, length = 20)
     private String name;
-    
+
     @Column(nullable = false, length = 20)
     private String surname;
 
@@ -39,7 +39,7 @@ public class User {
     @Column(nullable = false, unique = true, length = 64)
     private String email;
 
-    @Column(nullable = false, length = 15)
+    @Column(nullable = false, length = 255)
     private String password;
 
     @Column(nullable = false, length = 10)
@@ -54,5 +54,7 @@ public class User {
     @OneToMany(mappedBy = "employee")
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private List<Order> employOrders;
+
+
 
 }

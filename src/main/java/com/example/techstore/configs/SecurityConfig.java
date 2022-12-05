@@ -1,4 +1,4 @@
-package com.example.techstore.config;
+package com.example.techstore.configs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -44,18 +44,20 @@ public class SecurityConfig{
     
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-        .cors().and().csrf().disable()
-        .exceptionHandling().authenticationEntryPoint(handler).and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        .authorizeRequests()
-        .antMatchers(HttpMethod.GET, "products")
-        .permitAll()
-        .antMatchers("auth/**")
-        .permitAll()
-        .anyRequest()
-        .authenticated();
-        httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+    	httpSecurity
+    		.cors()
+    		.and()
+    		.csrf().disable()
+    		.exceptionHandling().authenticationEntryPoint(handler).and()
+    		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+    		.authorizeRequests()
+    		.antMatchers(HttpMethod.GET, "/products")
+    		.permitAll()
+    		.antMatchers("/auth/**")
+    		.permitAll()
+    		.anyRequest().authenticated();
+    		
+    	httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     	return httpSecurity.build();
     }
     

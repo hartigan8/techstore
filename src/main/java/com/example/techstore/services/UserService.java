@@ -47,4 +47,7 @@ public class UserService {
         }
     }
 
+    public User getOneUserByEmail(String email) {
+        return userRepo.findByEmail(email);  
+    }
 }

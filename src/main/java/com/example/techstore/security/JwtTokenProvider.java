@@ -33,7 +33,8 @@ public class JwtTokenProvider {
         .setExpiration(expireDate)
         .setIssuedAt(issueDate)
         .setSubject(Long.toString(userDetails.getId()))
-        .claim("role", userDetails.getAuthorities().toArray()).compact();
+        //.claim("role", userDetails.getAuthorities().toArray())
+        .compact();
     }
     
     Long getUserIdFromJwt(String token) {

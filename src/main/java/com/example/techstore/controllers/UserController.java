@@ -16,7 +16,7 @@ import com.example.techstore.entities.User;
 import com.example.techstore.services.UserService;
 
 @RestController
-@RequestMapping("user") //path: /user
+@RequestMapping("user") //path: /user www.ecem.com/user/1 GETMAPPING
 public class UserController {
     
     @Autowired

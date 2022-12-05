@@ -1,4 +1,4 @@
-package com.example.techstore.config;
+package com.example.techstore.configs;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
