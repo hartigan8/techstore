@@ -51,11 +51,10 @@ public class SecurityConfig{
     		.exceptionHandling().authenticationEntryPoint(handler).and()
     		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
     		.authorizeRequests()
-    		.antMatchers(HttpMethod.GET, "/products")
-    		.permitAll()
-    		.antMatchers("/auth/**")
-    		.permitAll()
-    		.anyRequest().authenticated();
+    		.antMatchers(HttpMethod.GET, "/products").permitAll()
+    		.antMatchers( "/auth/**").permitAll()
+    		.anyRequest()
+            .authenticated();
     		
     	httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     	return httpSecurity.build();

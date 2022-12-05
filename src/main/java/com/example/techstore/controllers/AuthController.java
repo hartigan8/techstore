@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.techstore.entities.User;
@@ -62,7 +61,7 @@ public class AuthController {
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
         if(userService.getOneUserByEmail(request.getEmail()) != null){
-            return new ResponseEntity<>("user already exist", HttpStatus.CONFLICT);
+            return new ResponseEntity<>("user already exist", HttpStatus.BAD_REQUEST);
         }
         User user = new User();
         user.setName(request.getName());
@@ -76,8 +75,6 @@ public class AuthController {
         UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
         Authentication auth = authManager.authenticate(authReq);
         SecurityContextHolder.getContext().setAuthentication(auth);
-        return new ResponseEntity<>("Bearer " + tokenProvider.generateJwtToten(auth), HttpStatus.OK);
+        return new ResponseEntity<>("Bearer " + tokenProvider.generateJwtToten(auth), HttpStatus.CREATED);
     }
-    
-
 }
