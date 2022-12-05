@@ -61,6 +61,7 @@ public class AuthController {
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
         if(userService.getOneUserByEmail(request.getEmail()) != null){
+            System.out.println("aısjdmnaısjdnasvjdnsa");
             return new ResponseEntity<>("user already exist", HttpStatus.BAD_REQUEST);
         }
         User user = new User();
@@ -71,10 +72,12 @@ public class AuthController {
         user.setPassword(encoder.encode(request.getPassword()));
         user.setRole("user");
         userService.saveOneUser(user);
-
-        UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+        
+        UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
         Authentication auth = authManager.authenticate(authReq);
         SecurityContextHolder.getContext().setAuthentication(auth);
-        return new ResponseEntity<>("Bearer " + tokenProvider.generateJwtToten(auth), HttpStatus.CREATED);
+        String token = "Bearer " + tokenProvider.generateJwtToten(auth);
+        
+        return new ResponseEntity<>(token, HttpStatus.CONFLICT);
     }
 }
