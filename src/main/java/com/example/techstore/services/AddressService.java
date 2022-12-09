@@ -8,15 +8,25 @@ import org.springframework.stereotype.Service;
 
 import com.example.techstore.entities.Address;
 import com.example.techstore.repositories.AddressRepo;
+import com.example.techstore.repositories.UserRepo;
+import com.example.techstore.requests.AddressRegisterRequest;
 
 @Service
 public class AddressService {
     
     @Autowired
     private AddressRepo addressRepo;
+    @Autowired
+    private UserRepo userRepo;
 
-    public Address saveOneAddress(Address address) {
-        return addressRepo.save(address);
+    public Address saveOneAddress(AddressRegisterRequest address) {
+        Address addressToSave = new Address();
+        addressToSave.setAddressExplanation(address.getAddressExplanation());
+        addressToSave.setCity(address.getCity());
+        addressToSave.setDistrict(address.getDistrict());
+        addressToSave.setStreet(address.getStreet());
+        addressToSave.setUser(userRepo.findById(address.getUserId()).get());
+        return addressRepo.save(addressToSave);
     }
     public void deleteOneAddress(Long id) {
         addressRepo.deleteById(id);

@@ -3,6 +3,7 @@ package com.example.techstore.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,27 +24,33 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
+    @PreAuthorize("hasRole('admin')")
     public User saveOneUser(@RequestBody User user) {
         return userService.saveOneUser(user);
     }
 
     @GetMapping(value = {"/{id}"})
+    @PreAuthorize("#id == authentication.principal.id")
     public User getOneUser(@PathVariable(name = "id") Long id) {
         User user = userService.getOneUser(id);
          return user;
         
     }
+
     @GetMapping
+    @PreAuthorize("hasRole('admin')")
     public List<User> getAllusers(){
         return userService.getAllUsers();
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("#id == authentication.principal.id")
     public void deleteOneUser(@PathVariable Long id) {
         userService.deleteOneUser(id);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("#id == authentication.principal.id")
     public User updateOneUser(@PathVariable Long id, @RequestBody User newUser){
         return userService.updateOneUser(id,newUser);
         
