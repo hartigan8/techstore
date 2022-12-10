@@ -34,7 +34,7 @@ public class AddressService {
     public List<Address> getAllAdresses() {
         return addressRepo.findAll();
     }
-    public Address updateOneAddress(Long id, Address newAddress){
+    public Address updateOneAddress(Long id, AddressRegisterRequest newAddress){
         Optional<Address> address = addressRepo.findById(id);
         if(address.isPresent()){
             Address foundAddress = address.get();

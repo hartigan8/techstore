@@ -28,6 +28,7 @@ public class AddressController {
     private AddressService addressService;
 
     @PostMapping
+    @PreAuthorize("#address.userId == principal.id")
     public Address saveOneAddress(@RequestBody AddressRegisterRequest address) {
         return addressService.saveOneAddress(address);
     }
@@ -47,13 +48,14 @@ public class AddressController {
     }
 
     @GetMapping
-    //@PreAuthorize("hasPrivilege('employee')")
+    @PreAuthorize("hasRole('employee')")
     public List<Address> getAllAddresses(){
         return addressService.getAllAdresses();
     }
     
     @PutMapping("{id}")
-    public Address updateOneAddress(@PathVariable Long id, @RequestBody Address address){
+    @PreAuthorize("#address.userId == principal.id")
+    public Address updateOneAddress(@PathVariable Long id, @RequestBody AddressRegisterRequest address){
         return addressService.updateOneAddress(id, address);
     }
 
