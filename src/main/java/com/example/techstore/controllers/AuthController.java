@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.techstore.entities.User;
 import com.example.techstore.requests.LoginRequest;
 import com.example.techstore.requests.RegisterRequest;
+import com.example.techstore.responses.AuthResponse;
 import com.example.techstore.security.JwtTokenProvider;
 import com.example.techstore.services.UserService;
 
@@ -60,10 +61,8 @@ public class AuthController {
 
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
-        AuthResponse authResponse = new AuthResponse();
         if(userService.getOneUserByEmail(request.getEmail()) != null){
-            authResponse.setMessage("User already exists.")
-            return new ResponseEntity<>(authResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("User already exists.", HttpStatus.BAD_REQUEST);
         }
         User user = new User();
         user.setName(request.getName());
@@ -78,7 +77,6 @@ public class AuthController {
         Authentication auth = authManager.authenticate(authReq);
         SecurityContextHolder.getContext().setAuthentication(auth);
         String token = "Bearer " + tokenProvider.generateJwtToten(auth);
-        authResponse.setMessage("User successfully registered.")
-        return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(token, HttpStatus.CREATED);
     }
 }
