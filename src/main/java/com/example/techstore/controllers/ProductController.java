@@ -30,7 +30,7 @@ public class ProductController {
         return productService.saveOneProduct(product);
     }
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('employee'')")
+    @PreAuthorize("hasRole('employee')")
     public void deleteOneProduct(@PathVariable Long id) {
         productService.deleteOneProduct(id);
     }
