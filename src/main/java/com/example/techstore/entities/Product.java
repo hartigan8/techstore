@@ -1,6 +1,6 @@
 package com.example.techstore.entities;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,5 +32,5 @@ public class Product {
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
-    private Set<OrderProduct> orderProducts;
+    private List<OrderProduct> orderProducts;
 }
