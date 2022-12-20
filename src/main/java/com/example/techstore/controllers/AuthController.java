@@ -45,13 +45,19 @@ public class AuthController {
 
 
     @PostMapping("login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
         UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
         Authentication auth = authManager.authenticate(authReq);
+        AuthResponse authResponse = new AuthResponse();
         if(auth.isAuthenticated()){
             SecurityContextHolder.getContext().setAuthentication(auth);
+            User user = userService.getOneUserByEmail(loginRequest.getEmail());
+            String token = "Bearer " + tokenProvider.generateJwtToten(auth);
+            authResponse.setMessage(token);
+            authResponse.setUserId(user.getId());
+            authResponse.setName(user.getName());
             
-            return new ResponseEntity<>("Bearer " + tokenProvider.generateJwtToten(auth), HttpStatus.OK);
+            return new ResponseEntity<>(authResponse, HttpStatus.OK);
         }
         else{
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -60,9 +66,10 @@ public class AuthController {
     }
 
     @PostMapping("register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+        AuthResponse authResponse = new AuthResponse();
         if(userService.getOneUserByEmail(request.getEmail()) != null){
-            return new ResponseEntity<>("User already exists.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(authResponse, HttpStatus.BAD_REQUEST);
         }
         User user = new User();
         user.setName(request.getName());
@@ -77,6 +84,11 @@ public class AuthController {
         Authentication auth = authManager.authenticate(authReq);
         SecurityContextHolder.getContext().setAuthentication(auth);
         String token = "Bearer " + tokenProvider.generateJwtToten(auth);
-        return new ResponseEntity<>(token, HttpStatus.CREATED);
+
+       
+        authResponse.setMessage(token);
+        authResponse.setUserId(user.getId());
+        authResponse.setName(user.getName());
+        return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
     }
 }
