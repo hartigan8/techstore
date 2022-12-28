@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.techstore.entities.Product;
 import com.example.techstore.repositories.ProductRepo;
+import com.example.techstore.requests.ProductQuantity;
 
 @Service
 public class ProductService {
@@ -20,6 +21,15 @@ public class ProductService {
 
     public List<Product> getAllProducts() {
         return productRepo.findAll();
+    }
+
+    public boolean checkQuantities(List<ProductQuantity> listToValidate) {
+        for (ProductQuantity productQuantity : listToValidate) {
+            Optional<Product> optProduct = productRepo.findById(productQuantity.getProductId());
+            if(!optProduct.isPresent() || optProduct.get().getQuantity() < productQuantity.getProductId())
+            return false;
+        }
+        return true;
     }
 
     public Product getOneProduct(Long id) {
@@ -44,6 +54,14 @@ public class ProductService {
         }
         else{
             return null;
+        }
+    }
+
+    public void updateQuantities(List<ProductQuantity> orderList) {
+        for (ProductQuantity productQuantity : orderList) {
+            Product product = productRepo.findById(productQuantity.getProductId()).get();
+            product.setQuantity(product.getQuantity() - productQuantity.getQuantity());
+            productRepo.save(product);
         }
     }
     

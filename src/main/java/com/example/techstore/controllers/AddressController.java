@@ -28,33 +28,32 @@ public class AddressController {
     private AddressService addressService;
 
     @PostMapping
-    @PreAuthorize("#address.userId == principal.id")
+    @PreAuthorize("#address.userId == principal.id or hasRole('admin')")
     public Address saveOneAddress(@RequestBody AddressRegisterRequest address) {
         return addressService.saveOneAddress(address);
     }
 
-    // TODO rest of the security
     @DeleteMapping("/{id}")
-    @PreAuthorize("@methodSecurity.isOwnedAddress(#id)")
+    @PreAuthorize("@methodSecurity.isOwnedAddress(#id) or hasRole('admin')")
     public void deleteOneAddress(@PathVariable Long id) {
         addressService.deleteOneAddress(id);
     }
 
     
     @GetMapping(value = {"/{id}"})
-    @PostAuthorize("returnObject.user.id == principal.id")
+    @PostAuthorize("returnObject.user.id == principal.id or hasRole('admin')")
     public Address getOneAddress(@PathVariable Long id) {
         return addressService.getOneAddress(id);
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('employee')")
+    @PreAuthorize("hasRole('employee') or hasRole('admin')")
     public List<Address> getAllAddresses(){
         return addressService.getAllAdresses();
     }
     
     @PutMapping("{id}")
-    @PreAuthorize("#address.userId == principal.id")
+    @PreAuthorize("#address.userId == principal.id or hasRole('admin')")
     public Address updateOneAddress(@PathVariable Long id, @RequestBody AddressRegisterRequest address){
         return addressService.updateOneAddress(id, address);
     }

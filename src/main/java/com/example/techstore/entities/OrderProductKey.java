@@ -9,6 +9,6 @@ import lombok.Data;
 @Embeddable
 @Data
 public class OrderProductKey implements Serializable{
-    private long orderId;
-    private long productId;
+    private Long orderId;
+    private Long productId;
 }

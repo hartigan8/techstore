@@ -20,7 +20,7 @@ import lombok.Data;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private Date date;
@@ -39,4 +39,5 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private User employee;
+
 }

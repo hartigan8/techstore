@@ -6,4 +6,5 @@ public class AuthResponse{
     String message;
     Long userId;
     String name;
+    String role;
 }

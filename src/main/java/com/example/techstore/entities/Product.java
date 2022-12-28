@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
 import lombok.Data;
@@ -18,19 +19,26 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
+    @Column(nullable = false, length = 64)
+    private String name;
 
     @Column(nullable = false, length = 20)
     private String category;
 
     @Column(nullable = false)
-    private int price;
+    private Integer price;
 
     @Column(nullable = false)
-    private int quantity;
+    private Integer quantity;
     
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private List<OrderProduct> orderProducts;
+
+    @Lob
+    @Column(name = "photo")
+    private byte[] photo;
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.techstore.entities.Address;
 import com.example.techstore.entities.User;
 import com.example.techstore.services.UserService;
 
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping(value = {"/{id}"})
-    @PreAuthorize("#id == authentication.principal.id")
+    @PreAuthorize("#id == authentication.principal.id or hasRole('admin')")
     public User getOneUser(@PathVariable(name = "id") Long id) {
         User user = userService.getOneUser(id);
          return user;
@@ -44,18 +45,23 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("#id == authentication.principal.id")
+    @PreAuthorize("#id == authentication.principal.id or hasRole('admin')")
     public void deleteOneUser(@PathVariable Long id) {
         userService.deleteOneUser(id);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("#id == authentication.principal.id")
+    @PreAuthorize("#id == authentication.principal.id or hasRole('admin')")
     public User updateOneUser(@PathVariable Long id, @RequestBody User newUser){
         return userService.updateOneUser(id,newUser);
         
     }   
     
+    @GetMapping("/{id}/adresses")
+    @PreAuthorize("#id == authentication.principal.id or hasRole('admin')")
+    public List<Address> getUserAddresses(@PathVariable Long id) {
+        return userService.getUserAddresses(id);
+    }
     
     
 }

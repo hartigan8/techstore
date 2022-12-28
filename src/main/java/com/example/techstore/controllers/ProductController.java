@@ -30,7 +30,7 @@ public class ProductController {
         return productService.saveOneProduct(product);
     }
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('employee')")
+    @PreAuthorize("hasRole('employee') or hasRole('admin')")
     public void deleteOneProduct(@PathVariable Long id) {
         productService.deleteOneProduct(id);
     }
@@ -44,7 +44,7 @@ public class ProductController {
         return productService.getAllProducts();
     }
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('employee')")
+    @PreAuthorize("hasRole('employee') or hasRole('admin')")
     public Product updateOneProduct(@PathVariable Long id, @RequestBody Product product){
         return productService.updateOneProduct(id, product);
     }

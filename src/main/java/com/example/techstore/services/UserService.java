@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.techstore.entities.Address;
 import com.example.techstore.entities.User;
 import com.example.techstore.repositories.UserRepo;
 
@@ -49,5 +50,9 @@ public class UserService {
 
     public User getOneUserByEmail(String email) {
         return userRepo.findByEmail(email);  
+    }
+
+    public List<Address> getUserAddresses(Long id) {
+        return userRepo.findById(id).get().getAddress();
     }
 }
