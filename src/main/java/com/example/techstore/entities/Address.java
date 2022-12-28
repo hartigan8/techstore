@@ -41,6 +41,7 @@ public class Address {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "address", cascade = CascadeType.REMOVE)
     private List<Order> orders;
 }

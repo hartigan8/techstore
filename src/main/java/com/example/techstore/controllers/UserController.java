@@ -57,7 +57,7 @@ public class UserController {
         
     }   
     
-    @GetMapping("/{id}/adresses")
+    @GetMapping("/{id}/addresses")
     @PreAuthorize("#id == authentication.principal.id or hasRole('admin')")
     public List<Address> getUserAddresses(@PathVariable Long id) {
         return userService.getUserAddresses(id);
