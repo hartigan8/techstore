@@ -28,6 +28,9 @@ public class Address {
     private String city;
 
     @Column(nullable=false, length = 30)
+    private String title;
+
+    @Column(nullable=false, length = 30)
     private String district;
 
     @Column(nullable = false, length = 30)

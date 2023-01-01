@@ -3,18 +3,23 @@ package com.example.techstore.entities;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.Data;
 
 @Entity
 @Data
-public class Log {
+@Table(name = "pglog")
+public class Pglog {
     private Date logTime;
     private String userName;
     private String databaseName;
     private String processId;
     private String connectionFrom;
+
     private String sessionId;
+    @Id
     private Long sessionLineNum;
     private String commandTag;
     private Date sessionStartTime;

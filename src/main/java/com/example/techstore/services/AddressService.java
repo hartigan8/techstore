@@ -21,6 +21,7 @@ public class AddressService {
 
     public Address saveOneAddress(AddressRegisterRequest address) {
         Address addressToSave = new Address();
+        addressToSave.setTitle(address.getTitle());
         addressToSave.setAddressExplanation(address.getAddressExplanation());
         addressToSave.setCity(address.getCity());
         addressToSave.setDistrict(address.getDistrict());

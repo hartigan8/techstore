@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class AddressRegisterRequest {
+    private String title;
     private String city;
     private String district;
     private String street;

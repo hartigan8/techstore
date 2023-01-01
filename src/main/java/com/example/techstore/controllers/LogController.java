@@ -7,7 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.techstore.entities.Log;
+import com.example.techstore.entities.Pglog;
 import com.example.techstore.repositories.LogRepo;
 
 @RestController
@@ -17,8 +17,8 @@ public class LogController {
     LogRepo logRepo;
     
     @GetMapping("logs")
-    @PreAuthorize("hasRole('admin')")
-    public List<Log> getLogs() {
+    //@PreAuthorize("hasRole('admin')")
+    public List<Pglog> getLogs() {
         return logRepo.findAll();
     }
 }
