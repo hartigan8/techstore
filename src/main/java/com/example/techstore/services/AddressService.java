@@ -39,6 +39,7 @@ public class AddressService {
         Optional<Address> address = addressRepo.findById(id);
         if(address.isPresent()){
             Address foundAddress = address.get();
+            foundAddress.setTitle(newAddress.getTitle());
             foundAddress.setCity(newAddress.getCity());
             foundAddress.setDistrict(newAddress.getDistrict());
             foundAddress.setStreet(newAddress.getStreet());

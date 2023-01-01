@@ -17,7 +17,7 @@ public class LogController {
     LogRepo logRepo;
     
     @GetMapping("logs")
-    //@PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('admin')")
     public List<Log> getLogs() {
         return logRepo.findAll();
     }
