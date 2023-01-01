@@ -2,25 +2,31 @@ package com.example.techstore.entities;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Subselect;
 
 import lombok.Data;
 
 @Entity
 @Data
 @Table(name = "pglog")
-public class Pglog {
+//@Subselect("select * from pglog")
+public class Log {
     private Date logTime;
     private String userName;
     private String databaseName;
     private String processId;
     private String connectionFrom;
 
-    private String sessionId;
-    @Id
-    private Long sessionLineNum;
+    @EmbeddedId
+    private LogKey sessionLine;
+    
+
     private String commandTag;
     private Date sessionStartTime;
     private String virtualTransactionId;

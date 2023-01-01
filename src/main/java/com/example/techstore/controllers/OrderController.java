@@ -32,13 +32,13 @@ public class OrderController {
 
     @PostMapping
     @PreAuthorize("returnObject.user.id == principal.id or hasRole('employee') or hasRole('admin')")
-    public ResponseEntity saveOneOrder(@RequestBody OrderRequest order) {
+    public ResponseEntity<String> saveOneOrder(@RequestBody OrderRequest order) {
         
         boolean valid = orderService.saveOneOrder(order);
         if(valid){
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("Order accepted.", HttpStatus.ACCEPTED);
         }
-        else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        else return new ResponseEntity<>("Something is wrong.", HttpStatus.BAD_REQUEST);
     }
 
 }
