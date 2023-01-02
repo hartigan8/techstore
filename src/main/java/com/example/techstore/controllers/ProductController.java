@@ -1,6 +1,7 @@
 package com.example.techstore.controllers;
 
 import com.example.techstore.entities.Product;
+import com.example.techstore.requests.ProductRequest;
 import com.example.techstore.services.ProductService;
 
 import java.util.List;
@@ -25,7 +26,8 @@ public class ProductController {
 
 
     @PostMapping
-    public Product saveOneProduct(@RequestBody Product product) {
+    @PreAuthorize("hasRole('employee') or hasRole('admin')")
+    public Product saveOneProduct(@RequestBody ProductRequest product) {
         
         return productService.saveOneProduct(product);
     }
@@ -45,8 +47,8 @@ public class ProductController {
     }
     @PutMapping("{id}")
     @PreAuthorize("hasRole('employee') or hasRole('admin')")
-    public Product updateOneProduct(@PathVariable Long id, @RequestBody Product product){
-        return productService.updateOneProduct(id, product);
+    public Product updateOneProduct(@RequestBody Product product){
+        return productService.updateOneProduct(product);
     }
 
     

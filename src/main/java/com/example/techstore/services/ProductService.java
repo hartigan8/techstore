@@ -9,14 +9,23 @@ import org.springframework.stereotype.Service;
 import com.example.techstore.entities.Product;
 import com.example.techstore.repositories.ProductRepo;
 import com.example.techstore.requests.ProductQuantity;
+import com.example.techstore.requests.ProductRequest;
 
 @Service
 public class ProductService {
     @Autowired
     private ProductRepo productRepo;
 
-    public Product saveOneProduct(Product product) {
-        return productRepo.save(product);
+    public Product saveOneProduct(ProductRequest product) {
+        Product productToSave = new Product();
+        productToSave.setCategory(product.getCategory());
+        productToSave.setDescription(product.getDescription());
+        productToSave.setName(product.getName());
+        productToSave.setPhoto(product.getPhoto());
+        productToSave.setPrice(product.getPrice());
+        productToSave.setQuantity(product.getQuantity());
+
+        return productRepo.save(productToSave);
     }
 
     public List<Product> getAllProducts() {
@@ -40,21 +49,14 @@ public class ProductService {
         productRepo.deleteById(id);
     }
 
-    public Product updateOneProduct(Long id, Product newProduct){
-        Optional<Product> product = productRepo.findById(id);
-        if(product.isPresent()){
-            Product foundProduct = product.get();
-            foundProduct.setCategory(newProduct.getCategory());
-            foundProduct.setDescription(newProduct.getDescription());
-            foundProduct.setQuantity(newProduct.getQuantity());
-            foundProduct.setPrice(newProduct.getPrice());
-            
-            productRepo.save(foundProduct);
-            return foundProduct;
-        }
-        else{
-            return null;
-        }
+    public Product updateOneProduct(Product updateProduct){
+        Product product = productRepo.findById(updateProduct.getId()).get();
+        product.setCategory(updateProduct.getCategory());
+        product.setDescription(updateProduct.getDescription());
+        product.setQuantity(updateProduct.getQuantity());
+        product.setPrice(updateProduct.getPrice());
+        productRepo.save(product);
+        return product;
     }
 
     public void updateQuantities(List<ProductQuantity> orderList) {
