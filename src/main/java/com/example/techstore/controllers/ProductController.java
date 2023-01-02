@@ -25,8 +25,8 @@ public class ProductController {
 
 
     @PostMapping
-    public Product saveOneProduct(@RequestBody Product product) {
-        
+    @PreAuthorize("hasRole('employee') or hasRole('admin')")
+    public Product saveOneProduct(@RequestBody Product product) {        
         return productService.saveOneProduct(product);
     }
     @DeleteMapping("/{id}")
