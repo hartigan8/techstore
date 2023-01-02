@@ -80,7 +80,7 @@ public class ProductService {
     }
 
     public List<Product> findAllByCategory(String catergory) {
-        return productRepo.findAllByCategory();
+        return productRepo.findAllByCategory(catergory);
     }
     
 }
