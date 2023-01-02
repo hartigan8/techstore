@@ -19,19 +19,19 @@ public class OrderController {
     OrderService orderService;
 
     @GetMapping
-    @PreAuthorize("hasRole('employee') or hasRole('admin')")
+    @PreAuthorize("hasAuthority('employee') or hasAuthority('admin')")
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("returnObject.user.id == principal.id or hasRole('employee') or hasRole('admin')")
+    @PreAuthorize("returnObject.user.id == principal.id or hasAuthority('employee') or hasAuthority('admin')")
     public Order getOneOrder(@PathVariable Long id) {
         return orderService.getOneOrder(id);
     }
 
     @PostMapping
-    @PreAuthorize("returnObject.user.id == principal.id or hasRole('employee') or hasRole('admin')")
+    @PreAuthorize("returnObject.user.id == principal.id or hasAuthority('employee') or hasAuthority('admin')")
     public ResponseEntity<String> saveOneOrder(@RequestBody OrderRequest order) {
         
         boolean valid = orderService.saveOneOrder(order);

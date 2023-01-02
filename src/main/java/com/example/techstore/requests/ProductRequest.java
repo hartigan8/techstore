@@ -9,5 +9,5 @@ public class ProductRequest {
     private Integer price;
     private Integer quantity;
     private String description;
-    private byte[] photo;
+    private String photo;
 }

@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 
@@ -49,10 +51,12 @@ public class User {
     private List<Address> address;
   
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private List<Order> customerOrders;
     
     @OneToMany(mappedBy = "employee")
     @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @JsonIgnore
     private List<Order> employOrders;
 
 

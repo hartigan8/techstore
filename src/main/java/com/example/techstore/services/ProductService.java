@@ -1,5 +1,7 @@
 package com.example.techstore.services;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,12 +18,21 @@ public class ProductService {
     @Autowired
     private ProductRepo productRepo;
 
-    public Product saveOneProduct(ProductRequest product) {
+    public Product saveOneProduct(ProductRequest product){
         Product productToSave = new Product();
         productToSave.setCategory(product.getCategory());
         productToSave.setDescription(product.getDescription());
         productToSave.setName(product.getName());
-        productToSave.setPhoto(product.getPhoto());
+        
+        String p = new String(product.getPhoto().substring(product.getPhoto().indexOf(",") + 1));
+        byte[] photo = null;
+        try {
+            photo = Base64.getDecoder().decode(p.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        productToSave.setPhoto(photo);
         productToSave.setPrice(product.getPrice());
         productToSave.setQuantity(product.getQuantity());
 
@@ -55,6 +66,7 @@ public class ProductService {
         product.setDescription(updateProduct.getDescription());
         product.setQuantity(updateProduct.getQuantity());
         product.setPrice(updateProduct.getPrice());
+        // photo update
         productRepo.save(product);
         return product;
     }
