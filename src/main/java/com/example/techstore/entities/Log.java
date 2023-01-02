@@ -17,16 +17,13 @@ import lombok.Data;
 @Table(name = "pglog")
 //@Subselect("select * from pglog")
 public class Log {
+    @EmbeddedId
+    private LogKey key;
     private Date logTime;
     private String userName;
     private String databaseName;
     private String processId;
     private String connectionFrom;
-
-    @EmbeddedId
-    private LogKey sessionLine;
-    
-
     private String commandTag;
     private Date sessionStartTime;
     private String virtualTransactionId;

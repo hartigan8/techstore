@@ -78,5 +78,9 @@ public class ProductService {
             productRepo.save(product);
         }
     }
+
+    public List<Product> findAllByCategory(String catergory) {
+        return productRepo.findAllByCategory();
+    }
     
 }
