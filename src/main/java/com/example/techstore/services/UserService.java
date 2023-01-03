@@ -57,4 +57,8 @@ public class UserService {
     public List<Address> getUserAddresses(Long id) {
         return userRepo.findById(id).get().getAddress();
     }
+
+    public List<User> getEmployees() {
+        return userRepo.findByRole("employee");
+    }
 }

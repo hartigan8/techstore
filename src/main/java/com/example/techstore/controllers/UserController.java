@@ -64,5 +64,9 @@ public class UserController {
         return userService.getUserAddresses(id);
     }
     
-    
+    @GetMapping("/employees")
+    @PreAuthorize("hasAuthority('admin')")
+    public List<User> getEmployees() {
+        return userService.getEmployees();
+    }
 }
