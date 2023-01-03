@@ -2,6 +2,7 @@ package com.example.techstore.services;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -48,6 +49,25 @@ public class OrderService {
             return true;
         }
         else return false;
+    }
+
+    public Order markAsShipepd(Long orderId) {
+        Optional<Order> oO = orderRepo.findById(orderId);
+        if(oO.isPresent()){
+            Order o = oO.get();
+            o.setShipped(true);
+            orderRepo.save(o);
+            return o;
+        }
+        return null;
+    }
+
+    public List<Order> unshippeds() {
+        return orderRepo.findAllByShipped(false);
+    }
+
+    public List<Order> getUnshippedOrderByEmployee(Long employeeId) {
+        return orderRepo.findAllUnshippedByEmployeeId(employeeId);
     }
 
 }

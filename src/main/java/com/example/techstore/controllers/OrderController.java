@@ -41,4 +41,22 @@ public class OrderController {
         else return new ResponseEntity<>("Something is wrong.", HttpStatus.BAD_REQUEST);
     }
 
+    @PutMapping("/markAsShipepd/{orderId}")
+    @PreAuthorize("hasAuthority('employee') or hasAuthority('admin')")
+    public Order markAsShipped(@PathVariable Long orderId) {
+        return orderService.markAsShipepd(orderId);
+    }
+
+    @GetMapping("/unshippeds/")
+    @PreAuthorize("hasAuthority('admin')")
+    public List<Order> unshipped() {
+        return orderService.unshippeds();
+    }
+
+    @GetMapping("/unshipped/{employeeId}")
+    @PreAuthorize("#employeeId == principal.id and hasAuthority('employee') or hasAuthority('admin')")
+    public List<Order> getUnshippedOrderByEmployee(@PathVariable Long employeeId) {
+        return orderService.getUnshippedOrderByEmployee(employeeId);
+        
+    }
 }

@@ -40,4 +40,6 @@ public class Order {
     @JoinColumn(name = "employee_id")
     private User employee;
 
+    private Boolean shipped;
+
 }
