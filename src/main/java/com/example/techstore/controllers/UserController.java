@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.techstore.entities.Address;
 import com.example.techstore.entities.User;
+import com.example.techstore.requests.UserUpdateRequest;
 import com.example.techstore.services.UserService;
 
 @RestController
@@ -51,9 +52,9 @@ public class UserController {
     }
 
     @PutMapping
-    @PreAuthorize("#newUser.id == principal.id or hasAuthority('admin')")
-    public User updateOneUser(@RequestBody User newUser){
-        return userService.updateOneUser(newUser);
+    @PreAuthorize("#updateBody.id == authentication.principal.id or hasAuthority('admin')")
+    public User updateOneUser(@RequestBody UserUpdateRequest updateBody){
+        return userService.updateOneUser(updateBody);
         
     }   
     
