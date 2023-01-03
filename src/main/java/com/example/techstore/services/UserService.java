@@ -36,7 +36,6 @@ public class UserService {
         if(user.isPresent()){
             User foundUser = user.get();
             foundUser.setName(newUser.getName());
-            foundUser.setAddress(newUser.getAddress());
             foundUser.setEmail(newUser.getEmail());
             foundUser.setPassword(newUser.getPassword());
             foundUser.setPhoneNumber(newUser.getPhoneNumber());
