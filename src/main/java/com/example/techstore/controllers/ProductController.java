@@ -2,6 +2,7 @@ package com.example.techstore.controllers;
 
 import com.example.techstore.entities.Product;
 import com.example.techstore.requests.ProductRequest;
+import com.example.techstore.responses.ProductResponse;
 import com.example.techstore.services.ProductService;
 
 import java.util.List;
@@ -39,23 +40,23 @@ public class ProductController {
         productService.deleteOneProduct(id);
     }
     @GetMapping(value = {"/{id}"})
-    public Product getOneProduct(@PathVariable(name = "id") Long id) {
-        Product product = productService.getOneProduct(id);
+    public ProductResponse getOneProduct(@PathVariable(name = "id") Long id) {
+        ProductResponse product = productService.getOneProduct(id);
          return product;  
     }
     @GetMapping
-    public List<Product> getAllProducts(){
+    public List<ProductResponse> getAllProducts(){
         return productService.getAllProducts();
     }
-    @PutMapping("{id}")
+    @PutMapping
     @PreAuthorize("hasAuthority('employee') or hasAuthority('admin')")
     public Product updateOneProduct(@RequestBody Product product){
         return productService.updateOneProduct(product);
     }
 
-    @GetMapping(value="{category}")
-    public List<Product> findAllByCategory(@PathVariable String catergory) {
-        return productService.findAllByCategory(catergory);
+    @GetMapping("category/{category}")
+    public List<ProductResponse> findAllByCategory(@PathVariable String category) {
+        return productService.findAllByCategory(category);
     }
     
     

@@ -38,6 +38,8 @@ public class Product {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private List<OrderProduct> orderProducts;
 
+    private String photoType;
+
     @Lob
     @Column(name = "photo")
     private byte[] photo;

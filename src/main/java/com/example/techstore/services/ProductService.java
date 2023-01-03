@@ -2,8 +2,11 @@ package com.example.techstore.services;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,7 @@ import com.example.techstore.entities.Product;
 import com.example.techstore.repositories.ProductRepo;
 import com.example.techstore.requests.ProductQuantity;
 import com.example.techstore.requests.ProductRequest;
+import com.example.techstore.responses.ProductResponse;
 
 @Service
 public class ProductService {
@@ -23,24 +27,39 @@ public class ProductService {
         productToSave.setCategory(product.getCategory());
         productToSave.setDescription(product.getDescription());
         productToSave.setName(product.getName());
-        
+        String pType = product.getPhoto().substring(0, product.getPhoto().indexOf(","));
         String p = new String(product.getPhoto().substring(product.getPhoto().indexOf(",") + 1));
         byte[] photo = null;
         try {
             photo = Base64.getDecoder().decode(p.getBytes("UTF-8"));
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        productToSave.setPhotoType(pType);
         productToSave.setPhoto(photo);
         productToSave.setPrice(product.getPrice());
         productToSave.setQuantity(product.getQuantity());
 
         return productRepo.save(productToSave);
     }
+    @Transactional
+    public List<ProductResponse> getAllProducts() {
+        List<Product> products = productRepo.findAll();
+        List<ProductResponse> response = new LinkedList<>();
+        for (Product product : products) {
+            String b64 = product.getPhotoType() + "," + Base64.getEncoder().encodeToString(product.getPhoto());
+            ProductResponse pR = new ProductResponse();
+            pR.setId(product.getId());
+            pR.setCategory(product.getCategory());
+            pR.setDescription(product.getDescription());
+            pR.setName(product.getName());
+            pR.setPhoto(b64);
+            pR.setPrice(product.getPrice());
+            pR.setQuantity(product.getQuantity());
+            response.add(pR);
+        }
 
-    public List<Product> getAllProducts() {
-        return productRepo.findAll();
+        return response;
     }
 
     public boolean checkQuantities(List<ProductQuantity> listToValidate) {
@@ -52,8 +71,26 @@ public class ProductService {
         return true;
     }
 
-    public Product getOneProduct(Long id) {
-        return productRepo.findById(id).orElse(null);
+    @Transactional
+    public ProductResponse getOneProduct(Long id) {
+        Optional<Product> oP = productRepo.findById(id);
+        if(oP.isPresent()){
+            Product product = oP.get();
+            ProductResponse pR = new ProductResponse();
+            String b64 = product.getPhotoType() + "," + Base64.getEncoder().encodeToString(product.getPhoto());
+            pR.setId(product.getId());
+            pR.setCategory(product.getCategory());
+            pR.setDescription(product.getDescription());
+            pR.setName(product.getName());
+            pR.setPhoto(b64);
+            pR.setPrice(product.getPrice());
+            pR.setQuantity(product.getQuantity());
+            return pR;
+        }
+        else{
+            return null;
+        }
+
     }
 
     public void deleteOneProduct(Long id) {
@@ -78,9 +115,24 @@ public class ProductService {
             productRepo.save(product);
         }
     }
+    @Transactional
+    public List<ProductResponse> findAllByCategory(String category) {
+        List<Product> products = productRepo.findAllByCategory(category);
+        List<ProductResponse> response = new LinkedList<>();
+        for (Product product : products) {
+            String b64 = product.getPhotoType() + "," + Base64.getEncoder().encodeToString(product.getPhoto());
+            ProductResponse pR = new ProductResponse();
+            pR.setId(product.getId());
+            pR.setCategory(product.getCategory());
+            pR.setDescription(product.getDescription());
+            pR.setName(product.getName());
+            pR.setPhoto(b64);
+            pR.setPrice(product.getPrice());
+            pR.setQuantity(product.getQuantity());
+            response.add(pR);
+        }
 
-    public List<Product> findAllByCategory(String catergory) {
-        return productRepo.findAllByCategory(catergory);
+        return response;
     }
     
 }

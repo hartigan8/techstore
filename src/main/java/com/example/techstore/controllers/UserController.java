@@ -50,10 +50,10 @@ public class UserController {
         userService.deleteOneUser(id);
     }
 
-    @PutMapping("/{id}")
-    @PreAuthorize("#id == authentication.principal.id or hasAuthority('admin')")
-    public User updateOneUser(@PathVariable Long id, @RequestBody User newUser){
-        return userService.updateOneUser(id,newUser);
+    @PutMapping
+    @PreAuthorize("#newUser.id == principal.id or hasAuthority('admin')")
+    public User updateOneUser(@RequestBody User newUser){
+        return userService.updateOneUser(newUser);
         
     }   
     
