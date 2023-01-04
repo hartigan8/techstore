@@ -41,7 +41,7 @@ public class OrderController {
         else return new ResponseEntity<>("Something is wrong.", HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("/markAsShipepd/{orderId}")
+    @PutMapping("/markAsShipped/{orderId}")
     @PreAuthorize("hasAuthority('employee') or hasAuthority('admin')")
     public Order markAsShipped(@PathVariable Long orderId) {
         return orderService.markAsShipepd(orderId);

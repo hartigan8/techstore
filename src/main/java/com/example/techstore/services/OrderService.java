@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.techstore.entities.Address;
 import com.example.techstore.entities.Order;
@@ -91,6 +92,7 @@ public class OrderService {
         return orderRepo.findAllUnshippedByEmployeeId(employeeId);
     }
 
+    @Transactional
     public List<Order> getMyOrders() {
         Long id = ((UserDetailsImp)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         User u = userRepo.findById(id).get();
