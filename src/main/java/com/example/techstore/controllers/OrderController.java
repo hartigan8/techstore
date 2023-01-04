@@ -31,7 +31,7 @@ public class OrderController {
     }
 
     @PostMapping
-    @PreAuthorize("returnObject.user.id == principal.id or hasAuthority('employee') or hasAuthority('admin')")
+    
     public ResponseEntity<String> saveOneOrder(@RequestBody OrderRequest order) {
         
         boolean valid = orderService.saveOneOrder(order);

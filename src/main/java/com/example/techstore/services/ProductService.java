@@ -65,7 +65,7 @@ public class ProductService {
     public boolean checkQuantities(List<ProductQuantity> listToValidate) {
         for (ProductQuantity productQuantity : listToValidate) {
             Optional<Product> optProduct = productRepo.findById(productQuantity.getProductId());
-            if(!optProduct.isPresent() || optProduct.get().getQuantity() < productQuantity.getProductId())
+            if(!optProduct.isPresent() || optProduct.get().getQuantity() < productQuantity.getQuantity())
             return false;
         }
         return true;

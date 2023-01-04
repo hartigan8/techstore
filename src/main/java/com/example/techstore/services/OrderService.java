@@ -4,13 +4,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.techstore.entities.Address;
 import com.example.techstore.entities.Order;
 import com.example.techstore.repositories.AddressRepo;
 import com.example.techstore.repositories.OrderRepo;
+import com.example.techstore.repositories.UserRepo;
 import com.example.techstore.requests.OrderRequest;
+import com.example.techstore.security.UserDetailsImp;
 
 @Service
 public class OrderService {
@@ -20,16 +23,20 @@ public class OrderService {
     private ProductService productService;
     private OrderProductService orderProductService;
     private AddressRepo addressRepo;
+    private UserRepo userRepo;
+    
+
     
 
     
 
     public OrderService(OrderRepo orderRepo, ProductService productService, OrderProductService orderProductService,
-            AddressRepo addressRepo) {
+            AddressRepo addressRepo, UserRepo userRepo) {
         this.orderRepo = orderRepo;
         this.productService = productService;
         this.orderProductService = orderProductService;
         this.addressRepo = addressRepo;
+        this.userRepo = userRepo;
     }
 
     public List<Order> getAllOrders() {
@@ -54,6 +61,9 @@ public class OrderService {
             }
             orderToSave.setAddress(oA.get());
             orderToSave.setDate(new Date());
+            orderToSave.setShipped(false);
+
+            orderToSave.setUser(userRepo.findById(((UserDetailsImp)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()).get());
             Order savedOrder = orderRepo.save(orderToSave);
             orderProductService.saveOrderDetails(order.getOrderList(), savedOrder);
             return true;
