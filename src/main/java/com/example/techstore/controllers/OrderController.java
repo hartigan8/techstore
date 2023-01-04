@@ -57,6 +57,10 @@ public class OrderController {
     @PreAuthorize("#employeeId == principal.id and hasAuthority('employee') or hasAuthority('admin')")
     public List<Order> getUnshippedOrderByEmployee(@PathVariable Long employeeId) {
         return orderService.getUnshippedOrderByEmployee(employeeId);
-        
+    }
+
+    @GetMapping("/myOrders")
+    public List<Order> getMyOrders() {
+        return orderService.getMyOrders();
     }
 }

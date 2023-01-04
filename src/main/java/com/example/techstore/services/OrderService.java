@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.techstore.entities.Address;
 import com.example.techstore.entities.Order;
+import com.example.techstore.entities.User;
 import com.example.techstore.repositories.AddressRepo;
 import com.example.techstore.repositories.OrderRepo;
 import com.example.techstore.repositories.UserRepo;
@@ -88,6 +89,12 @@ public class OrderService {
 
     public List<Order> getUnshippedOrderByEmployee(Long employeeId) {
         return orderRepo.findAllUnshippedByEmployeeId(employeeId);
+    }
+
+    public List<Order> getMyOrders() {
+        Long id = ((UserDetailsImp)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        User u = userRepo.findById(id).get();
+        return orderRepo.findAllByUser(u);
     }
 
 }
