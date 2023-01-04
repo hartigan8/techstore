@@ -6,7 +6,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.techstore.entities.Address;
 import com.example.techstore.entities.Order;
+import com.example.techstore.repositories.AddressRepo;
 import com.example.techstore.repositories.OrderRepo;
 import com.example.techstore.requests.OrderRequest;
 
@@ -17,13 +19,17 @@ public class OrderService {
     private OrderRepo orderRepo;
     private ProductService productService;
     private OrderProductService orderProductService;
+    private AddressRepo addressRepo;
+    
 
     
 
-    public OrderService(OrderRepo orderRepo, ProductService productService, OrderProductService orderProductService) {
+    public OrderService(OrderRepo orderRepo, ProductService productService, OrderProductService orderProductService,
+            AddressRepo addressRepo) {
         this.orderRepo = orderRepo;
         this.productService = productService;
         this.orderProductService = orderProductService;
+        this.addressRepo = addressRepo;
     }
 
     public List<Order> getAllOrders() {
@@ -42,7 +48,11 @@ public class OrderService {
             //////
             productService.updateQuantities(order.getOrderList());
             Order orderToSave = new Order();
-            orderToSave.setAddress(order.getAddress());
+            Optional<Address> oA = addressRepo.findById(order.getAddressId());
+            if(!oA.isPresent()){
+                return false;
+            }
+            orderToSave.setAddress(oA.get());
             orderToSave.setDate(new Date());
             Order savedOrder = orderRepo.save(orderToSave);
             orderProductService.saveOrderDetails(order.getOrderList(), savedOrder);

@@ -50,7 +50,7 @@ public class ProductController {
     }
     @PutMapping
     @PreAuthorize("hasAuthority('employee') or hasAuthority('admin')")
-    public Product updateOneProduct(@RequestBody Product product){
+    public Product updateOneProduct(@RequestBody ProductResponse product){
         return productService.updateOneProduct(product);
     }
 

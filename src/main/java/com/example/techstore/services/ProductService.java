@@ -97,13 +97,23 @@ public class ProductService {
         productRepo.deleteById(id);
     }
 
-    public Product updateOneProduct(Product updateProduct){
+    public Product updateOneProduct(ProductResponse updateProduct){
         Product product = productRepo.findById(updateProduct.getId()).get();
         product.setCategory(updateProduct.getCategory());
         product.setDescription(updateProduct.getDescription());
         product.setQuantity(updateProduct.getQuantity());
         product.setPrice(updateProduct.getPrice());
         // photo update
+        String pType = updateProduct.getPhoto().substring(0, updateProduct.getPhoto().indexOf(","));
+        String p = new String(updateProduct.getPhoto().substring(updateProduct.getPhoto().indexOf(",") + 1));
+        byte[] photo = null;
+        try {
+            photo = Base64.getDecoder().decode(p.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        product.setPhoto(photo);
+        product.setPhotoType(pType);
         productRepo.save(product);
         return product;
     }
