@@ -1,7 +1,6 @@
 package com.example.techstore.services;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Base64;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
