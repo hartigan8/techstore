@@ -12,7 +12,6 @@ import org.hibernate.annotations.Subselect;
 
 import lombok.Data;
 
-@Entity
 @Data
 @Table(name = "pglog")
 //@Subselect("select * from pglog")

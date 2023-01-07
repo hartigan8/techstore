@@ -1,6 +1,7 @@
 package com.example.techstore.entities;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
@@ -36,11 +38,11 @@ public class Product {
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+    @JsonIgnore
     private List<OrderProduct> orderProducts;
 
-    private String photoType;
-
     @Lob
-    @Column(name = "photo")
-    private byte[] photo;
+    @Column(columnDefinition = "TEXT")
+    private String photo;
+    
 }

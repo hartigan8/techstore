@@ -27,16 +27,6 @@ public class ProductService {
         productToSave.setCategory(product.getCategory());
         productToSave.setDescription(product.getDescription());
         productToSave.setName(product.getName());
-        String pType = product.getPhoto().substring(0, product.getPhoto().indexOf(","));
-        String p = new String(product.getPhoto().substring(product.getPhoto().indexOf(",") + 1));
-        byte[] photo = null;
-        try {
-            photo = Base64.getDecoder().decode(p.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        productToSave.setPhotoType(pType);
-        productToSave.setPhoto(photo);
         productToSave.setPrice(product.getPrice());
         productToSave.setQuantity(product.getQuantity());
 
@@ -47,13 +37,11 @@ public class ProductService {
         List<Product> products = productRepo.findAll();
         List<ProductResponse> response = new LinkedList<>();
         for (Product product : products) {
-            String b64 = product.getPhotoType() + "," + Base64.getEncoder().encodeToString(product.getPhoto());
             ProductResponse pR = new ProductResponse();
             pR.setId(product.getId());
             pR.setCategory(product.getCategory());
             pR.setDescription(product.getDescription());
             pR.setName(product.getName());
-            pR.setPhoto(b64);
             pR.setPrice(product.getPrice());
             pR.setQuantity(product.getQuantity());
             response.add(pR);
@@ -77,12 +65,10 @@ public class ProductService {
         if(oP.isPresent()){
             Product product = oP.get();
             ProductResponse pR = new ProductResponse();
-            String b64 = product.getPhotoType() + "," + Base64.getEncoder().encodeToString(product.getPhoto());
             pR.setId(product.getId());
             pR.setCategory(product.getCategory());
             pR.setDescription(product.getDescription());
             pR.setName(product.getName());
-            pR.setPhoto(b64);
             pR.setPrice(product.getPrice());
             pR.setQuantity(product.getQuantity());
             return pR;
@@ -104,16 +90,7 @@ public class ProductService {
         product.setQuantity(updateProduct.getQuantity());
         product.setPrice(updateProduct.getPrice());
         // photo update
-        String pType = updateProduct.getPhoto().substring(0, updateProduct.getPhoto().indexOf(","));
-        String p = new String(updateProduct.getPhoto().substring(updateProduct.getPhoto().indexOf(",") + 1));
-        byte[] photo = null;
-        try {
-            photo = Base64.getDecoder().decode(p.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        product.setPhoto(photo);
-        product.setPhotoType(pType);
+        
         productRepo.save(product);
         return product;
     }
@@ -130,13 +107,12 @@ public class ProductService {
         List<Product> products = productRepo.findAllByCategory(category);
         List<ProductResponse> response = new LinkedList<>();
         for (Product product : products) {
-            String b64 = product.getPhotoType() + "," + Base64.getEncoder().encodeToString(product.getPhoto());
             ProductResponse pR = new ProductResponse();
             pR.setId(product.getId());
             pR.setCategory(product.getCategory());
             pR.setDescription(product.getDescription());
             pR.setName(product.getName());
-            pR.setPhoto(b64);
+
             pR.setPrice(product.getPrice());
             pR.setQuantity(product.getQuantity());
             response.add(pR);

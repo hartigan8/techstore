@@ -1,7 +1,7 @@
 package com.example.techstore.entities;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,8 +29,8 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
-    private Set<OrderProduct> orderProducts;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
+    private List<OrderProduct> orderProducts;
 
     @ManyToOne
     @JoinColumn(name = "address_id")
@@ -41,5 +41,6 @@ public class Order {
     private User employee;
 
     private Boolean shipped;
+
 
 }
