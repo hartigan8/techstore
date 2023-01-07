@@ -3,14 +3,15 @@ package com.example.techstore.entities;
 import java.util.Date;
 
 import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 import javax.persistence.Table;
 
 
 import lombok.Data;
 
+@Entity
 @Data
 @Table(name = "pglog")
-//@Subselect("select * from pglog")
 public class Log {
     @EmbeddedId
     private LogKey key;

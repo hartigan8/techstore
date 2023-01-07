@@ -14,7 +14,7 @@ import com.example.techstore.repositories.LogRepo;
 public class LogController {
 
     @Autowired
-    LogRepo logRepo;
+    private LogRepo logRepo;
     
     @GetMapping("logs")
     @PreAuthorize("hasAuthority('admin')")
