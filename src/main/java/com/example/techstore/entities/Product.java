@@ -40,7 +40,6 @@ public class Product {
     @JsonIgnore
     private List<OrderProduct> orderProducts;
 
-    @Lob
     @Column(columnDefinition = "TEXT")
     private String photo;
     

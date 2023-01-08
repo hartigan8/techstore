@@ -28,25 +28,15 @@ public class ProductService {
         productToSave.setName(product.getName());
         productToSave.setPrice(product.getPrice());
         productToSave.setQuantity(product.getQuantity());
-
+        productToSave.setPhoto(product.getPhoto());
         return productRepo.save(productToSave);
     }
     @Transactional
-    public List<ProductResponse> getAllProducts() {
+    public List<Product> getAllProducts() {
         List<Product> products = productRepo.findAll();
-        List<ProductResponse> response = new LinkedList<>();
-        for (Product product : products) {
-            ProductResponse pR = new ProductResponse();
-            pR.setId(product.getId());
-            pR.setCategory(product.getCategory());
-            pR.setDescription(product.getDescription());
-            pR.setName(product.getName());
-            pR.setPrice(product.getPrice());
-            pR.setQuantity(product.getQuantity());
-            response.add(pR);
-        }
 
-        return response;
+
+        return products;
     }
 
     public boolean checkQuantities(List<ProductQuantity> listToValidate) {
@@ -88,8 +78,7 @@ public class ProductService {
         product.setDescription(updateProduct.getDescription());
         product.setQuantity(updateProduct.getQuantity());
         product.setPrice(updateProduct.getPrice());
-        // photo update
-        
+        product.setPhoto(updateProduct.getPhoto());
         productRepo.save(product);
         return product;
     }
@@ -111,7 +100,7 @@ public class ProductService {
             pR.setCategory(product.getCategory());
             pR.setDescription(product.getDescription());
             pR.setName(product.getName());
-
+            pR.setPhoto(product.getPhoto());
             pR.setPrice(product.getPrice());
             pR.setQuantity(product.getQuantity());
             response.add(pR);

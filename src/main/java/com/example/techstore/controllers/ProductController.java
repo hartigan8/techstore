@@ -44,7 +44,7 @@ public class ProductController {
          return product;  
     }
     @GetMapping
-    public List<ProductResponse> getAllProducts(){
+    public List<Product> getAllProducts(){
         return productService.getAllProducts();
     }
     @PutMapping
